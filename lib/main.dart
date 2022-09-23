@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:koalla/pages/anasayfa.dart';
+import 'package:koalla/pages/details.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(fontFamily: "Comfortaa"),
       home: Scaffold(
-        body: anasayfa(),
+        body: Details(),
       ),
     );
   }
