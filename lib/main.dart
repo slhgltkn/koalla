@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(fontFamily: "Comfortaa"),
       home: Scaffold(
-        body: Details(),
+        body: anasayfa(),
       ),
     );
   }

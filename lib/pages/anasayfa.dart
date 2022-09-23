@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
+import 'package:koalla/others/filmler/Avatar.dart';
 import 'package:koalla/others/renkler.dart';
 import 'package:koalla/others/API.dart';
 import 'package:http/http.dart' as http;
 
-class anasayfa extends StatelessWidget {
+bool showTextField = false;
+
+class anasayfa extends StatefulWidget {
   const anasayfa({super.key});
 
+  @override
+  State<anasayfa> createState() => _anasayfaState();
+}
+
+class _anasayfaState extends State<anasayfa> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -18,17 +26,55 @@ class anasayfa extends StatelessWidget {
               SizedBox(height: size.height * 0.04),
               Row(
                 children: [
-                  SizedBox(width: size.width * 0.05),
+                  Spacer(flex: 1),
                   logo(),
-                  SizedBox(width: size.width * 0.45),
-                  searchBox(),
+                  Spacer(flex: 7),
+                  SearchBox(),
+                  Spacer(flex: 1),
                 ],
               ),
               SizedBox(height: size.height * 0.06),
               ustFilm(size: size),
+              SizedBox(height: size.height * 0.06),
+              avatarCard(),
             ],
           ),
         ));
+  }
+}
+
+class SearchBox extends StatelessWidget {
+  const SearchBox({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: (() {}),
+      borderRadius: BorderRadius.circular(15),
+      child: Container(
+        width: 50,
+        height: 50,
+        decoration: BoxDecoration(
+          border: Border.all(color: renkler.beyaz, width: 0.7),
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              renkler.turuncu2,
+              renkler.turuncu4,
+            ],
+          ),
+          borderRadius: BorderRadius.circular(15),
+        ),
+        child: Icon(
+          IconlyBroken.search,
+          color: renkler.beyaz,
+          size: 25,
+        ),
+      ),
+    );
   }
 }
 
@@ -46,7 +92,7 @@ class ustFilm extends StatelessWidget {
       width: size.width * 0.9,
       height: size.height * 0.24,
       decoration: BoxDecoration(
-        color: renkler.acikGri,
+        color: renkler.acikBackg,
         borderRadius: BorderRadius.circular(30),
       ),
       child: Row(
@@ -154,41 +200,6 @@ class ustFilm extends StatelessWidget {
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class searchBox extends StatelessWidget {
-  const searchBox({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: (() {}),
-      borderRadius: BorderRadius.circular(15),
-      child: Container(
-        width: 50,
-        height: 50,
-        decoration: BoxDecoration(
-          border: Border.all(color: renkler.beyaz, width: 0.7),
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              renkler.turuncu2,
-              renkler.turuncu4,
-            ],
-          ),
-          borderRadius: BorderRadius.circular(15),
-        ),
-        child: Icon(
-          IconlyBroken.search,
-          color: renkler.beyaz,
-          size: 25,
-        ),
       ),
     );
   }
