@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "474291551590",
+    "project_id": "koalla-6916a",
+    "storage_bucket": "koalla-6916a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:474291551590:android:4d26eaca71fb88cacadca7",
+        "android_client_info": {
+          "package_name": "com.example.koalla"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "474291551590-man11e9f1j9r3mgbvd5mg0nl7v8inf4k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB6SN0POQ07lZib7ecw71jdKQ5Sk0G_jaE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "474291551590-man11e9f1j9r3mgbvd5mg0nl7v8inf4k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

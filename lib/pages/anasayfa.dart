@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
 import 'package:koalla/others/filmler/Avatar.dart';
@@ -90,7 +92,7 @@ class ustFilm extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: size.width * 0.9,
-      height: size.height * 0.24,
+      height: size.height * 0.25,
       decoration: BoxDecoration(
         color: renkler.acikBackg,
         borderRadius: BorderRadius.circular(30),
@@ -101,7 +103,7 @@ class ustFilm extends StatelessWidget {
           ClipRRect(
             borderRadius: BorderRadius.circular(15),
             child: Image(
-              width: 125,
+              width: size.width * 0.25,
               image: NetworkImage(
                   "https://upload.wikimedia.org/wikipedia/tr/1/12/Avatar-Film-Posteri.jpg"),
             ),
@@ -116,9 +118,9 @@ class ustFilm extends StatelessWidget {
                   style: TextStyle(
                       color: renkler.beyaz,
                       fontWeight: FontWeight.bold,
-                      fontSize: 25),
+                      fontSize: 22),
                 ),
-                SizedBox(height: size.height * 0.02),
+                SizedBox(height: size.height * 0.015),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -149,11 +151,11 @@ class ustFilm extends StatelessWidget {
                     Spacer(flex: 1),
                   ],
                 ),
-                SizedBox(height: 15),
+                SizedBox(height: size.height * 0.02),
                 Container(
-                  width: 265,
+                  width: size.width * 0.5,
                   child: Text(
-                    "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the...",
+                    "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
                     style: TextStyle(color: renkler.beyaz, fontSize: 13),
                   ),
                 ),
