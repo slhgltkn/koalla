@@ -1,11 +1,13 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
 import 'package:koalla/others/filmler/Avatar.dart';
 import 'package:koalla/others/renkler.dart';
 import 'package:koalla/others/API.dart';
-import 'package:http/http.dart' as http;
+import 'package:firebase_database/firebase_database.dart';
+import 'package:koalla/pages/anasayfa.dart';
+import 'package:koalla/pages/filmler.dart';
+import 'package:flutter/src/rendering/box.dart';
 
 bool showTextField = false;
 
@@ -21,27 +23,28 @@ class _anasayfaState extends State<anasayfa> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-        backgroundColor: renkler.arkaPlan,
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              SizedBox(height: size.height * 0.04),
-              Row(
-                children: [
-                  Spacer(flex: 1),
-                  logo(),
-                  Spacer(flex: 7),
-                  SearchBox(),
-                  Spacer(flex: 1),
-                ],
-              ),
-              SizedBox(height: size.height * 0.06),
-              ustFilm(size: size),
-              SizedBox(height: size.height * 0.06),
-              avatarCard(),
-            ],
-          ),
-        ));
+      backgroundColor: renkler.arkaPlan,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(height: size.height * 0.04),
+            Row(
+              children: [
+                Spacer(flex: 1),
+                logo(),
+                Spacer(flex: 7),
+                SearchBox(),
+                Spacer(flex: 1),
+              ],
+            ),
+            SizedBox(height: size.height * 0.06),
+            ustFilm(size: size),
+            SizedBox(height: size.height * 0.06),
+            Filmler(),
+          ],
+        ),
+      ),
+    );
   }
 }
 
