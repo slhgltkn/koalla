@@ -10,4 +10,5 @@ class renkler {
   static const Color acikGri = Color(0xff555353);
   static const Color koyuBeyaz = Color(0xffE3E3E3);
   static const Color beyaz = Color(0xffFFFFFF);
+  static const Color seffaf = Colors.transparent;
 }

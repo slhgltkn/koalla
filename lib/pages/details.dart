@@ -1,13 +1,21 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
 import 'package:koalla/others/renkler.dart';
 import 'package:koalla/pages/anasayfa.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
-class Details extends StatelessWidget {
+class Details extends StatefulWidget {
   const Details({super.key});
 
   @override
+  State<Details> createState() => _DetailsState();
+}
+
+class _DetailsState extends State<Details> {
+  @override
   Widget build(BuildContext context) {
+    final ref = FirebaseDatabase.instance.ref().child('movies');
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: renkler.arkaPlan,
@@ -15,7 +23,7 @@ class Details extends StatelessWidget {
         child: Column(
           children: [
             SizedBox(height: size.height * 0.05),
-            logo(),
+            UstTaraf(),
             SizedBox(height: size.height * 0.05),
             Row(
               children: [
@@ -28,7 +36,15 @@ class Details extends StatelessWidget {
             SizedBox(height: size.height * 0.05),
             baslik(),
             SizedBox(height: size.height * 0.01),
-            aciklama()
+            aciklama(),
+            Container(
+              width: size.width * 1,
+              height: size.height * 1,
+              child: WebView(
+                javascriptMode: JavascriptMode.unrestricted,
+                initialUrl: 'https://vidmoxy.com/f/v1xf335d6b8?vst=1',
+              ),
+            ),
           ],
         ),
       ),
@@ -36,7 +52,49 @@ class Details extends StatelessWidget {
   }
 }
 
-class resim extends StatelessWidget {
+class UstTaraf extends StatelessWidget {
+  const UstTaraf({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Spacer(flex: 1),
+        backButton(),
+        Spacer(flex: 2),
+        logo(),
+        Spacer(flex: 5),
+      ],
+    );
+  }
+}
+
+class backButton extends StatelessWidget {
+  const backButton({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      highlightColor: renkler.seffaf,
+      focusColor: renkler.seffaf,
+      splashColor: renkler.seffaf,
+      disabledColor: renkler.seffaf,
+      hoverColor: renkler.seffaf,
+      onPressed: () => Navigator.pop(context),
+      icon: Icon(
+        IconlyLight.arrow_left,
+        size: 30,
+        color: renkler.beyaz,
+      ),
+    );
+  }
+}
+
+class resim extends StatefulWidget {
   const resim({
     Key? key,
     required this.size,
@@ -45,14 +103,19 @@ class resim extends StatelessWidget {
   final Size size;
 
   @override
+  State<resim> createState() => _resimState();
+}
+
+class _resimState extends State<resim> {
+  @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
           color: renkler.acikGri,
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(40), bottomLeft: Radius.circular(40))),
-      width: size.width * 0.55,
-      height: size.height * 0.35,
+      width: widget.size.width * 0.55,
+      height: widget.size.height * 0.45,
       child: Stack(
         fit: StackFit.expand,
         children: [
@@ -72,7 +135,7 @@ class resim extends StatelessWidget {
             children: [
               Spacer(flex: 1),
               Container(
-                height: size.height * 0.25,
+                height: widget.size.height * 0.25,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(40),
@@ -104,7 +167,7 @@ class resim extends StatelessWidget {
   }
 }
 
-class kenarcontainer extends StatelessWidget {
+class kenarcontainer extends StatefulWidget {
   const kenarcontainer({
     Key? key,
     required this.size,
@@ -113,9 +176,14 @@ class kenarcontainer extends StatelessWidget {
   final Size size;
 
   @override
+  State<kenarcontainer> createState() => _kenarcontainerState();
+}
+
+class _kenarcontainerState extends State<kenarcontainer> {
+  @override
   Widget build(BuildContext context) {
     return Container(
-      height: size.height * 0.35,
+      height: widget.size.height * 0.45,
       child: Column(
         children: [
           Container(
@@ -126,8 +194,8 @@ class kenarcontainer extends StatelessWidget {
                 bottomRight: Radius.circular(30),
               ),
             ),
-            width: size.width * 0.25,
-            height: size.height * 0.11,
+            width: widget.size.width * 0.25,
+            height: widget.size.height * 0.135,
             child: Column(
               children: const [
                 Spacer(flex: 3),
@@ -149,7 +217,7 @@ class kenarcontainer extends StatelessWidget {
                   "Puan",
                   style: TextStyle(
                     color: renkler.koyuBeyaz,
-                    fontSize: 15,
+                    fontSize: 14,
                   ),
                 ),
                 Spacer(flex: 3),
@@ -163,8 +231,8 @@ class kenarcontainer extends StatelessWidget {
                 borderRadius: BorderRadius.only(
                     topRight: Radius.circular(30),
                     bottomRight: Radius.circular(30))),
-            width: size.width * 0.25,
-            height: size.height * 0.11,
+            width: widget.size.width * 0.25,
+            height: widget.size.height * 0.135,
             child: Column(
               children: [
                 Spacer(flex: 3),
@@ -186,7 +254,7 @@ class kenarcontainer extends StatelessWidget {
                   "Zaman",
                   style: TextStyle(
                     color: renkler.koyuBeyaz,
-                    fontSize: 15,
+                    fontSize: 14,
                   ),
                 ),
                 Spacer(flex: 3),
@@ -201,8 +269,8 @@ class kenarcontainer extends StatelessWidget {
                   topRight: Radius.circular(30),
                   bottomRight: Radius.circular(30)),
             ),
-            width: size.width * 0.25,
-            height: size.height * 0.11,
+            width: widget.size.width * 0.25,
+            height: widget.size.height * 0.135,
             child: Column(
               children: [
                 Spacer(flex: 3),
@@ -224,7 +292,7 @@ class kenarcontainer extends StatelessWidget {
                   "Tarih",
                   style: TextStyle(
                     color: renkler.koyuBeyaz,
-                    fontSize: 15,
+                    fontSize: 14,
                   ),
                 ),
                 Spacer(flex: 3),
@@ -237,9 +305,14 @@ class kenarcontainer extends StatelessWidget {
   }
 }
 
-class baslik extends StatelessWidget {
+class baslik extends StatefulWidget {
   const baslik({super.key});
 
+  @override
+  State<baslik> createState() => _baslikState();
+}
+
+class _baslikState extends State<baslik> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -247,7 +320,7 @@ class baslik extends StatelessWidget {
         children: [
           Spacer(flex: 1),
           Text(
-            "Avatar",
+            "Başlık",
             style: TextStyle(
                 color: renkler.beyaz,
                 fontWeight: FontWeight.bold,
@@ -260,9 +333,14 @@ class baslik extends StatelessWidget {
   }
 }
 
-class aciklama extends StatelessWidget {
+class aciklama extends StatefulWidget {
   const aciklama({super.key});
 
+  @override
+  State<aciklama> createState() => _aciklamaState();
+}
+
+class _aciklamaState extends State<aciklama> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -274,7 +352,7 @@ class aciklama extends StatelessWidget {
             child: SizedBox(
               width: size.width * 0.8,
               child: Text(
-                "Avatar",
+                "Açıklama",
                 style: TextStyle(
                   color: renkler.beyaz,
                   fontSize: 15,
