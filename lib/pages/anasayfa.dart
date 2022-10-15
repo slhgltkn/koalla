@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
 import 'package:koalla/others/filmler/Avatar.dart';
@@ -6,8 +7,12 @@ import 'package:koalla/others/renkler.dart';
 import 'package:koalla/others/API.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:koalla/pages/anasayfa.dart';
+import 'package:koalla/pages/details.dart';
 import 'package:koalla/pages/filmler.dart';
 import 'package:flutter/src/rendering/box.dart';
+import 'package:koalla/pages/search.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 bool showTextField = false;
 
@@ -27,7 +32,7 @@ class _anasayfaState extends State<anasayfa> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(height: size.height * 0.04),
+            SizedBox(height: size.height * 0.08),
             Row(
               children: [
                 Spacer(flex: 1),
@@ -48,15 +53,27 @@ class _anasayfaState extends State<anasayfa> {
   }
 }
 
-class SearchBox extends StatelessWidget {
+class SearchBox extends StatefulWidget {
   const SearchBox({
     Key? key,
   }) : super(key: key);
 
   @override
+  State<SearchBox> createState() => _SearchBoxState();
+}
+
+class _SearchBoxState extends State<SearchBox> {
+  @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: (() {}),
+      onTap: (() {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Search(),
+          ),
+        );
+      }),
       borderRadius: BorderRadius.circular(15),
       child: Container(
         width: 50,
@@ -83,7 +100,7 @@ class SearchBox extends StatelessWidget {
   }
 }
 
-class ustFilm extends StatelessWidget {
+class ustFilm extends StatefulWidget {
   const ustFilm({
     Key? key,
     required this.size,
@@ -92,44 +109,97 @@ class ustFilm extends StatelessWidget {
   final Size size;
 
   @override
+  State<ustFilm> createState() => _ustFilmState();
+}
+
+class _ustFilmState extends State<ustFilm> {
+  var date;
+  var rate;
+  var time;
+  var name;
+  var details;
+  var image;
+
+  /*final ref = FirebaseDatabase.instance.ref().child('movies');
+
+  Future<void> GetData() async {
+    final response = await ref.get();
+    if (response.value != null) {
+      //Map<String, dynamic> data = response.value as Map<String, dynamic>;
+      //Map<String, dynamic>;
+      //name = response.value[0]['name'];
+      //Map<String, dynamic> value =
+      //Map<String, dynamic>.from(response.value as Map);
+
+      //setState(() {});
+      print(response.value ?? [0]);
+      //name = response.value['0']['name'];
+
+      /*name = response.value ?? [name];
+      date = response.value ?? [date];
+      time = response.value ?? [time];
+      details = response.value ?? [details];
+      rate = response.value ?? [rate];*/
+      //name = response.value[0]['name'];
+      //name = response[0].value["name"];
+    }
+  }
+
+  /*Future<void> GetData() async {
+    final ref = FirebaseDatabase.instance.ref('movies');
+    final snapshot = await ref.child('movies').get();
+    if (snapshot.exists) {
+      print(snapshot.value);
+    } else {
+      print('No data available.');
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    GetData();
+  }*/*/
+
+  @override
   Widget build(BuildContext context) {
     return Container(
-      width: size.width * 0.9,
-      height: size.height * 0.25,
+      width: widget.size.width * 0.9,
+      height: widget.size.height * 0.25,
       decoration: BoxDecoration(
         color: renkler.acikBackg,
         borderRadius: BorderRadius.circular(30),
       ),
       child: Row(
         children: [
-          SizedBox(width: size.width * 0.05),
+          SizedBox(width: widget.size.width * 0.05),
           ClipRRect(
             borderRadius: BorderRadius.circular(15),
             child: Image(
-              width: size.width * 0.25,
+              width: widget.size.width * 0.25,
               image: NetworkImage(
                   "https://upload.wikimedia.org/wikipedia/tr/1/12/Avatar-Film-Posteri.jpg"),
             ),
           ),
           Container(
-            width: size.width * 0.6,
+            width: widget.size.width * 0.6,
             child: Column(
               children: [
-                SizedBox(height: size.height * 0.02),
+                SizedBox(height: widget.size.height * 0.02),
                 Text(
-                  "Avatar",
+                  'name',
                   style: TextStyle(
                       color: renkler.beyaz,
                       fontWeight: FontWeight.bold,
                       fontSize: 22),
                 ),
-                SizedBox(height: size.height * 0.015),
+                SizedBox(height: widget.size.height * 0.015),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Spacer(flex: 1),
                     Text(
-                      "2022",
+                      'date',
                       style: TextStyle(
                           color: renkler.beyaz,
                           fontSize: 16,
@@ -137,7 +207,7 @@ class ustFilm extends StatelessWidget {
                     ),
                     Spacer(flex: 1),
                     Text(
-                      "8.6",
+                      "rate",
                       style: TextStyle(
                           color: renkler.beyaz,
                           fontSize: 16,
@@ -145,7 +215,7 @@ class ustFilm extends StatelessWidget {
                     ),
                     Spacer(flex: 1),
                     Text(
-                      "8.6",
+                      "time",
                       style: TextStyle(
                           color: renkler.beyaz,
                           fontSize: 16,
@@ -154,17 +224,24 @@ class ustFilm extends StatelessWidget {
                     Spacer(flex: 1),
                   ],
                 ),
-                SizedBox(height: size.height * 0.02),
+                SizedBox(height: widget.size.height * 0.02),
                 Container(
-                  width: size.width * 0.5,
+                  width: widget.size.width * 0.5,
                   child: Text(
-                    "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+                    "details",
                     style: TextStyle(color: renkler.beyaz, fontSize: 13),
                   ),
                 ),
-                SizedBox(height: size.height * 0.012),
+                SizedBox(height: widget.size.height * 0.012),
                 InkWell(
-                  onTap: (() {}),
+                  onTap: (() {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Details(),
+                      ),
+                    );
+                  }),
                   borderRadius: BorderRadius.circular(13),
                   child: Container(
                     width: 130,
