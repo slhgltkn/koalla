@@ -31,7 +31,7 @@ class FfilmlerState extends State<Filmler> {
         itemBuilder: (context, snapshot, animation, index) {
           Map movie = snapshot.value as Map;
           movie['key'] = snapshot.key;
-          Size size = MediaQuery.of(context).size;
+
           return Column(
             children: [
               InkWell(
@@ -116,7 +116,7 @@ class FfilmlerState extends State<Filmler> {
                             ),
                           ),
                           SizedBox(height: size.height * 0.035),
-                          WatchButton(),
+                          WatchButton(movie: movie),
                           Spacer(flex: 1),
                         ],
                       ),
@@ -134,8 +134,8 @@ class FfilmlerState extends State<Filmler> {
 }
 
 class WatchButton extends StatefulWidget {
-  const WatchButton({super.key});
-
+  WatchButton({super.key, required this.movie});
+  final Map movie;
   @override
   State<WatchButton> createState() => _WatchButtonState();
 }
@@ -149,7 +149,15 @@ class _WatchButtonState extends State<WatchButton> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => Details(),
+            builder: (context) => Details(
+              details: widget.movie['details'],
+              image: widget.movie['image'],
+              name: widget.movie['name'],
+              date: widget.movie['date'],
+              imdbPuan: widget.movie['rate'],
+              time: widget.movie['time'],
+              link: widget.movie['link'],
+            ),
           ),
         );
       }),

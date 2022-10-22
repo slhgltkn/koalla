@@ -1,7 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:iconly/iconly.dart';
+import 'package:koalla/others/NavBar.dart';
 import 'package:koalla/others/filmler/Avatar.dart';
 import 'package:koalla/others/renkler.dart';
 import 'package:koalla/others/API.dart';
@@ -10,9 +12,8 @@ import 'package:koalla/pages/anasayfa.dart';
 import 'package:koalla/pages/details.dart';
 import 'package:koalla/pages/filmler.dart';
 import 'package:flutter/src/rendering/box.dart';
+import 'package:koalla/pages/gamesScreen.dart';
 import 'package:koalla/pages/search.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 
 bool showTextField = false;
 
@@ -28,11 +29,12 @@ class _anasayfaState extends State<anasayfa> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
+      bottomNavigationBar: navBar(),
       backgroundColor: renkler.arkaPlan,
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(height: size.height * 0.08),
+            SizedBox(height: size.height * 0.06),
             Row(
               children: [
                 Spacer(flex: 1),
@@ -44,7 +46,31 @@ class _anasayfaState extends State<anasayfa> {
             ),
             SizedBox(height: size.height * 0.06),
             ustFilm(size: size),
-            SizedBox(height: size.height * 0.06),
+            SizedBox(height: size.height * 0.025),
+            InkWell(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => profile()),
+                );
+              },
+              child: Container(
+                alignment: Alignment.center,
+                width: size.width * 0.9,
+                height: size.height * 0.075,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: renkler.turuncu2),
+                child: Text(
+                  'Oyun Kategorimiz Açıldı\n Oynamak İçin Lütfen Tıklayın',
+                  style: TextStyle(
+                      color: renkler.beyaz, fontSize: 17, height: 1.35),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ),
+            SizedBox(height: size.height * 0.025),
+            //SizedBox(height: size.height * 0.06),
             Filmler(),
           ],
         ),
@@ -113,56 +139,10 @@ class ustFilm extends StatefulWidget {
 }
 
 class _ustFilmState extends State<ustFilm> {
-  var date;
-  var rate;
-  var time;
-  var name;
-  var details;
-  var image;
-
-  /*final ref = FirebaseDatabase.instance.ref().child('movies');
-
-  Future<void> GetData() async {
-    final response = await ref.get();
-    if (response.value != null) {
-      //Map<String, dynamic> data = response.value as Map<String, dynamic>;
-      //Map<String, dynamic>;
-      //name = response.value[0]['name'];
-      //Map<String, dynamic> value =
-      //Map<String, dynamic>.from(response.value as Map);
-
-      //setState(() {});
-      print(response.value ?? [0]);
-      //name = response.value['0']['name'];
-
-      /*name = response.value ?? [name];
-      date = response.value ?? [date];
-      time = response.value ?? [time];
-      details = response.value ?? [details];
-      rate = response.value ?? [rate];*/
-      //name = response.value[0]['name'];
-      //name = response[0].value["name"];
-    }
-  }
-
-  /*Future<void> GetData() async {
-    final ref = FirebaseDatabase.instance.ref('movies');
-    final snapshot = await ref.child('movies').get();
-    if (snapshot.exists) {
-      print(snapshot.value);
-    } else {
-      print('No data available.');
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    GetData();
-  }*/*/
-
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    final ref = FirebaseDatabase.instance.ref().child('movies');
     return Container(
       width: widget.size.width * 0.9,
       height: widget.size.height * 0.25,
@@ -170,118 +150,150 @@ class _ustFilmState extends State<ustFilm> {
         color: renkler.acikBackg,
         borderRadius: BorderRadius.circular(30),
       ),
-      child: Row(
-        children: [
-          SizedBox(width: widget.size.width * 0.05),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(15),
-            child: Image(
-              width: widget.size.width * 0.25,
-              image: NetworkImage(
-                  "https://upload.wikimedia.org/wikipedia/tr/1/12/Avatar-Film-Posteri.jpg"),
-            ),
-          ),
-          Container(
-            width: widget.size.width * 0.6,
-            child: Column(
-              children: [
-                SizedBox(height: widget.size.height * 0.02),
-                Text(
-                  'name',
-                  style: TextStyle(
-                      color: renkler.beyaz,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 22),
-                ),
-                SizedBox(height: widget.size.height * 0.015),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Spacer(flex: 1),
-                    Text(
-                      'date',
-                      style: TextStyle(
-                          color: renkler.beyaz,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    Spacer(flex: 1),
-                    Text(
-                      "rate",
-                      style: TextStyle(
-                          color: renkler.beyaz,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    Spacer(flex: 1),
-                    Text(
-                      "time",
-                      style: TextStyle(
-                          color: renkler.beyaz,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    Spacer(flex: 1),
-                  ],
-                ),
-                SizedBox(height: widget.size.height * 0.02),
-                Container(
-                  width: widget.size.width * 0.5,
-                  child: Text(
-                    "details",
-                    style: TextStyle(color: renkler.beyaz, fontSize: 13),
+      child: FirebaseAnimatedList(
+        scrollDirection: Axis.horizontal,
+        query: ref,
+        itemBuilder: (context, snapshot, animation, index) {
+          Map movie = snapshot.value as Map;
+
+          movie['key'] = snapshot.key;
+          return Row(
+            children: [
+              SizedBox(width: widget.size.width * 0.05),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(15),
+                child: Image(
+                  width: widget.size.width * 0.25,
+                  image: NetworkImage(
+                    movie['image'],
                   ),
                 ),
-                SizedBox(height: widget.size.height * 0.012),
-                InkWell(
-                  onTap: (() {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => Details(),
+              ),
+              Container(
+                width: widget.size.width * 0.6,
+                child: Column(
+                  children: [
+                    SizedBox(height: widget.size.height * 0.02),
+                    Text(
+                      movie['name'],
+                      style: TextStyle(
+                        color: renkler.beyaz,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 22,
                       ),
-                    );
-                  }),
-                  borderRadius: BorderRadius.circular(13),
-                  child: Container(
-                    width: 130,
-                    height: 40,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [
-                          renkler.turuncu2,
-                          renkler.turuncu4,
-                        ],
-                      ),
-                      borderRadius: BorderRadius.circular(13),
+                      maxLines: 1,
+                      textAlign: TextAlign.center,
+                      overflow: TextOverflow.clip,
+                      softWrap: true,
                     ),
-                    child: Row(
+                    SizedBox(height: widget.size.height * 0.015),
+                    Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Spacer(flex: 2),
-                        Icon(
-                          IconlyBroken.play,
-                          color: renkler.beyaz,
+                        Spacer(flex: 1),
+                        Text(
+                          movie['date'],
+                          style: TextStyle(
+                              color: renkler.beyaz,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold),
                         ),
                         Spacer(flex: 1),
                         Text(
-                          "Şimdi İzle",
+                          movie['rate'],
                           style: TextStyle(
                               color: renkler.beyaz,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 15),
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold),
                         ),
-                        Spacer(flex: 2),
+                        Spacer(flex: 1),
+                        Text(
+                          movie['time'],
+                          style: TextStyle(
+                              color: renkler.beyaz,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(width: size.width * 0.005),
+                        Text(
+                          'dk',
+                          style: TextStyle(color: renkler.beyaz, fontSize: 16),
+                        ),
+                        Spacer(flex: 1),
                       ],
                     ),
-                  ),
+                    SizedBox(height: widget.size.height * 0.02),
+                    Container(
+                      width: widget.size.width * 0.5,
+                      child: Text(
+                        movie['details'],
+                        maxLines: 3,
+                        style: TextStyle(
+                          color: renkler.beyaz,
+                          fontSize: 13,
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: widget.size.height * 0.012),
+                    InkWell(
+                      onTap: (() {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Details(
+                              details: movie['details'],
+                              image: movie['image'],
+                              name: movie['name'],
+                              date: movie['date'],
+                              imdbPuan: movie['rate'],
+                              time: movie['time'],
+                              link: movie['link'],
+                            ),
+                          ),
+                        );
+                      }),
+                      borderRadius: BorderRadius.circular(13),
+                      child: Container(
+                        width: 130,
+                        height: 40,
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              renkler.turuncu2,
+                              renkler.turuncu4,
+                            ],
+                          ),
+                          borderRadius: BorderRadius.circular(13),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Spacer(flex: 2),
+                            Icon(
+                              IconlyBroken.play,
+                              color: renkler.beyaz,
+                            ),
+                            Spacer(flex: 1),
+                            Text(
+                              "Şimdi İzle",
+                              style: TextStyle(
+                                  color: renkler.beyaz,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15),
+                            ),
+                            Spacer(flex: 2),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-          ),
-        ],
+              ),
+            ],
+          );
+        },
       ),
     );
   }

@@ -1,8 +1,14 @@
+import 'dart:developer';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:koalla/others/renkler.dart';
 import 'package:koalla/pages/anasayfa.dart';
+import 'package:koalla/pages/auth/register.dart';
 import 'package:koalla/pages/details.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:koalla/pages/auth/login.dart';
+import 'package:koalla/pages/games.dart';
+import 'package:koalla/pages/gamesScreen.dart';
 import 'package:koalla/pages/search.dart';
 
 void main() async {

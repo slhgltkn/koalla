@@ -1,12 +1,31 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:iconly/iconly.dart';
 import 'package:koalla/others/renkler.dart';
+import 'package:koalla/pages/WebViewVideo.dart';
 import 'package:koalla/pages/anasayfa.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+final ref = FirebaseDatabase.instance.ref().child('movies');
+
 class Details extends StatefulWidget {
-  const Details({super.key});
+  Details({
+    required this.date,
+    required this.imdbPuan,
+    required this.time,
+    required this.image,
+    required this.name,
+    required this.link,
+    required this.details,
+  });
+  final String details;
+  final String imdbPuan;
+  final String time;
+  final String date;
+  final String image;
+  final String name;
+  final String link;
 
   @override
   State<Details> createState() => _DetailsState();
@@ -22,29 +41,42 @@ class _DetailsState extends State<Details> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(height: size.height * 0.05),
+            SizedBox(height: size.height * 0.075),
             UstTaraf(),
             SizedBox(height: size.height * 0.05),
             Row(
               children: [
                 Spacer(flex: 1),
-                resim(size: size),
-                kenarcontainer(size: size),
+                resim(
+                  link: widget.link,
+                  size: size,
+                  image: widget.image,
+                ),
+                kenarcontainer(
+                  size: size,
+                  date: widget.date,
+                  rate: widget.imdbPuan,
+                  time: widget.time,
+                ),
                 Spacer(flex: 1),
               ],
             ),
             SizedBox(height: size.height * 0.05),
-            baslik(),
-            SizedBox(height: size.height * 0.01),
-            aciklama(),
-            Container(
+            baslik(
+              name: widget.name,
+            ),
+            SizedBox(height: size.height * 0.03),
+            aciklama(
+              details: widget.details,
+            ),
+            /*Container(
               width: size.width * 1,
               height: size.height * 1,
               child: WebView(
                 javascriptMode: JavascriptMode.unrestricted,
                 initialUrl: 'https://vidmoxy.com/f/v1xf335d6b8?vst=1',
               ),
-            ),
+            ),*/
           ],
         ),
       ),
@@ -95,12 +127,16 @@ class backButton extends StatelessWidget {
 }
 
 class resim extends StatefulWidget {
-  const resim({
+  resim({
     Key? key,
     required this.size,
+    required this.image,
+    required this.link,
   }) : super(key: key);
 
   final Size size;
+  final String link;
+  final String image;
 
   @override
   State<resim> createState() => _resimState();
@@ -126,7 +162,7 @@ class _resimState extends State<resim> {
             ),
             child: Image(
               image: NetworkImage(
-                "https://upload.wikimedia.org/wikipedia/tr/1/12/Avatar-Film-Posteri.jpg",
+                widget.image,
               ),
               fit: BoxFit.cover,
             ),
@@ -154,7 +190,14 @@ class _resimState extends State<resim> {
           ),
           Center(
               child: InkWell(
-            onTap: (() {}),
+            onTap: (() {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => webViewVideo(link: widget.link),
+                ),
+              );
+            }),
             child: Icon(
               IconlyBroken.play,
               color: renkler.beyaz,
@@ -170,10 +213,16 @@ class _resimState extends State<resim> {
 class kenarcontainer extends StatefulWidget {
   const kenarcontainer({
     Key? key,
+    required this.date,
+    required this.rate,
+    required this.time,
     required this.size,
   }) : super(key: key);
 
   final Size size;
+  final String date;
+  final String rate;
+  final String time;
 
   @override
   State<kenarcontainer> createState() => _kenarcontainerState();
@@ -182,6 +231,7 @@ class kenarcontainer extends StatefulWidget {
 class _kenarcontainerState extends State<kenarcontainer> {
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Container(
       height: widget.size.height * 0.45,
       child: Column(
@@ -197,7 +247,7 @@ class _kenarcontainerState extends State<kenarcontainer> {
             width: widget.size.width * 0.25,
             height: widget.size.height * 0.135,
             child: Column(
-              children: const [
+              children: [
                 Spacer(flex: 3),
                 Icon(
                   IconlyBroken.star,
@@ -206,7 +256,7 @@ class _kenarcontainerState extends State<kenarcontainer> {
                 ),
                 Spacer(flex: 4),
                 Text(
-                  "8.6",
+                  widget.rate,
                   style: TextStyle(
                       color: renkler.beyaz,
                       fontSize: 18,
@@ -227,10 +277,12 @@ class _kenarcontainerState extends State<kenarcontainer> {
           Spacer(flex: 1),
           Container(
             decoration: BoxDecoration(
-                color: renkler.acikBackg,
-                borderRadius: BorderRadius.only(
-                    topRight: Radius.circular(30),
-                    bottomRight: Radius.circular(30))),
+              color: renkler.acikBackg,
+              borderRadius: BorderRadius.only(
+                topRight: Radius.circular(30),
+                bottomRight: Radius.circular(30),
+              ),
+            ),
             width: widget.size.width * 0.25,
             height: widget.size.height * 0.135,
             child: Column(
@@ -242,12 +294,25 @@ class _kenarcontainerState extends State<kenarcontainer> {
                   size: 35,
                 ),
                 Spacer(flex: 4),
-                Text(
-                  "150dk",
-                  style: TextStyle(
-                      color: renkler.beyaz,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      widget.time,
+                      style: TextStyle(
+                          color: renkler.beyaz,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(width: size.width * 0.01),
+                    Text(
+                      'dk',
+                      style: TextStyle(
+                          color: renkler.beyaz,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ],
                 ),
                 Spacer(flex: 1),
                 Text(
@@ -281,7 +346,7 @@ class _kenarcontainerState extends State<kenarcontainer> {
                 ),
                 Spacer(flex: 4),
                 Text(
-                  "2022",
+                  widget.date,
                   style: TextStyle(
                       color: renkler.beyaz,
                       fontSize: 18,
@@ -305,62 +370,53 @@ class _kenarcontainerState extends State<kenarcontainer> {
   }
 }
 
-class baslik extends StatefulWidget {
-  const baslik({super.key});
+class baslik extends StatelessWidget {
+  const baslik({
+    super.key,
+    required this.name,
+  });
+  final String name;
 
-  @override
-  State<baslik> createState() => _baslikState();
-}
-
-class _baslikState extends State<baslik> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Row(
-        children: [
-          Spacer(flex: 1),
-          Text(
-            "Başlık",
-            style: TextStyle(
-                color: renkler.beyaz,
-                fontWeight: FontWeight.bold,
-                fontSize: 22),
+      child: Center(
+        child: Text(
+          name,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            color: renkler.beyaz,
+            fontWeight: FontWeight.bold,
+            fontSize: 22,
           ),
-          Spacer(flex: 8),
-        ],
+        ),
       ),
     );
   }
 }
 
-class aciklama extends StatefulWidget {
-  const aciklama({super.key});
-
-  @override
-  State<aciklama> createState() => _aciklamaState();
-}
-
-class _aciklamaState extends State<aciklama> {
+class aciklama extends StatelessWidget {
+  const aciklama({
+    super.key,
+    required this.details,
+  });
+  final String details;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return SizedBox(
-      width: size.width * 0.8,
-      child: Row(
-        children: [
-          Flexible(
-            child: SizedBox(
-              width: size.width * 0.8,
-              child: Text(
-                "Açıklama",
-                style: TextStyle(
-                  color: renkler.beyaz,
-                  fontSize: 15,
-                ),
-              ),
-            ),
-          ),
-        ],
+    return Padding(
+      padding: EdgeInsets.only(
+          left: size.width * 0.1,
+          right: size.width * 0.1,
+          bottom: size.height * 0.04),
+      child: Text(
+        details,
+        textAlign: TextAlign.left,
+        style: TextStyle(
+          color: renkler.beyaz,
+          fontSize: 16,
+          height: 1.32,
+        ),
       ),
     );
   }
