@@ -34,6 +34,10 @@ class Details extends StatefulWidget {
 class _DetailsState extends State<Details> {
   @override
   Widget build(BuildContext context) {
+    SystemUiOverlayStyle(
+      statusBarColor: renkler.arkaPlan,
+      systemNavigationBarColor: renkler.arkaPlan,
+    );
     final ref = FirebaseDatabase.instance.ref().child('movies');
     Size size = MediaQuery.of(context).size;
     return Scaffold(

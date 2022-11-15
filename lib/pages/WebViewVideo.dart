@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:koalla/others/renkler.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class webViewVideo extends StatefulWidget {
@@ -15,6 +16,10 @@ class webViewVideo extends StatefulWidget {
 class webViewVideoState extends State<webViewVideo> {
   @override
   Widget build(BuildContext context) {
+    SystemUiOverlayStyle(
+      statusBarColor: renkler.arkaPlan,
+      systemNavigationBarColor: renkler.arkaPlan,
+    );
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
 
     return WebView(

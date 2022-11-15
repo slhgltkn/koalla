@@ -36,6 +36,10 @@ class SsearchState extends State<Search> {
 
   @override
   Widget build(BuildContext context) {
+    SystemUiOverlayStyle(
+      statusBarColor: renkler.arkaPlan,
+      systemNavigationBarColor: renkler.arkaPlan,
+    );
     FirebaseDatabase.instance.ref().child('movies');
 
     Size size = MediaQuery.of(context).size;

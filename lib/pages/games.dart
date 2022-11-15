@@ -113,6 +113,7 @@ class _gamesState extends State<games> {
                   ],
                 ),
               ),
+              SizedBox(height: size.height * 0.02),
             ],
           );
         },

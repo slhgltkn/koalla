@@ -27,6 +27,10 @@ class anasayfa extends StatefulWidget {
 class _anasayfaState extends State<anasayfa> {
   @override
   Widget build(BuildContext context) {
+    SystemUiOverlayStyle(
+      statusBarColor: renkler.arkaPlan,
+      systemNavigationBarColor: renkler.arkaPlan,
+    );
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       bottomNavigationBar: navBar(),

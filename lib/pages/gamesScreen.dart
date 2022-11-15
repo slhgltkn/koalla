@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:koalla/others/NavBar.dart';
 import 'package:koalla/others/renkler.dart';
 import 'package:koalla/pages/anasayfa.dart';
@@ -14,6 +15,10 @@ class profile extends StatefulWidget {
 class _profileState extends State<profile> {
   @override
   Widget build(BuildContext context) {
+    SystemUiOverlayStyle(
+      statusBarColor: renkler.arkaPlan,
+      systemNavigationBarColor: renkler.arkaPlan,
+    );
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: renkler.arkaPlan,
@@ -25,6 +30,7 @@ class _profileState extends State<profile> {
             logo(),
             SizedBox(height: size.height * 0.06),
             games(),
+            SizedBox(height: size.height * 0.06),
           ],
         ),
       ),
