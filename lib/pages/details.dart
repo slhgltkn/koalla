@@ -73,14 +73,6 @@ class _DetailsState extends State<Details> {
             aciklama(
               details: widget.details,
             ),
-            /*Container(
-              width: size.width * 1,
-              height: size.height * 1,
-              child: WebView(
-                javascriptMode: JavascriptMode.unrestricted,
-                initialUrl: 'https://vidmoxy.com/f/v1xf335d6b8?vst=1',
-              ),
-            ),*/
           ],
         ),
       ),
@@ -155,7 +147,7 @@ class _resimState extends State<resim> {
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(40), bottomLeft: Radius.circular(40))),
       width: widget.size.width * 0.55,
-      height: widget.size.height * 0.45,
+      height: 350,
       child: Stack(
         fit: StackFit.expand,
         children: [
@@ -237,7 +229,7 @@ class _kenarcontainerState extends State<kenarcontainer> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Container(
-      height: widget.size.height * 0.45,
+      height: 350,
       child: Column(
         children: [
           Container(
@@ -249,7 +241,7 @@ class _kenarcontainerState extends State<kenarcontainer> {
               ),
             ),
             width: widget.size.width * 0.25,
-            height: widget.size.height * 0.135,
+            height: 100,
             child: Column(
               children: [
                 Spacer(flex: 3),
@@ -288,7 +280,7 @@ class _kenarcontainerState extends State<kenarcontainer> {
               ),
             ),
             width: widget.size.width * 0.25,
-            height: widget.size.height * 0.135,
+            height: 100,
             child: Column(
               children: [
                 Spacer(flex: 3),
@@ -339,7 +331,7 @@ class _kenarcontainerState extends State<kenarcontainer> {
                   bottomRight: Radius.circular(30)),
             ),
             width: widget.size.width * 0.25,
-            height: widget.size.height * 0.135,
+            height: 100,
             child: Column(
               children: [
                 Spacer(flex: 3),

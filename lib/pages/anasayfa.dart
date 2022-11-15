@@ -31,53 +31,52 @@ class _anasayfaState extends State<anasayfa> {
       statusBarColor: renkler.arkaPlan,
       systemNavigationBarColor: renkler.arkaPlan,
     );
+
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       bottomNavigationBar: navBar(),
       backgroundColor: renkler.arkaPlan,
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(height: size.height * 0.06),
-            Row(
-              children: [
-                Spacer(flex: 1),
-                logo(),
-                Spacer(flex: 7),
-                SearchBox(),
-                Spacer(flex: 1),
-              ],
-            ),
-            SizedBox(height: size.height * 0.06),
-            ustFilm(size: size),
-            SizedBox(height: size.height * 0.025),
-            InkWell(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => profile()),
-                );
-              },
-              child: Container(
-                alignment: Alignment.center,
-                width: size.width * 0.9,
-                height: size.height * 0.075,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: renkler.turuncu2),
-                child: Text(
-                  'Oyun Kategorimiz Açıldı\n Oynamak İçin Lütfen Tıklayın',
-                  style: TextStyle(
-                      color: renkler.beyaz, fontSize: 17, height: 1.35),
-                  textAlign: TextAlign.center,
-                ),
+      body: Column(
+        children: [
+          SizedBox(height: size.height * 0.06),
+          Row(
+            children: [
+              Spacer(flex: 1),
+              logo(),
+              Spacer(flex: 7),
+              SearchBox(),
+              Spacer(flex: 1),
+            ],
+          ),
+          SizedBox(height: size.height * 0.06),
+          ustFilm(size: size),
+          SizedBox(height: size.height * 0.025),
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => profile()),
+              );
+            },
+            child: Container(
+              alignment: Alignment.center,
+              width: size.width * 0.9,
+              height: 57,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  color: renkler.turuncu2),
+              child: Text(
+                'Oyun Kategorimiz Açıldı\n Oynamak İçin Lütfen Tıklayın',
+                style:
+                    TextStyle(color: renkler.beyaz, fontSize: 17, height: 1.35),
+                textAlign: TextAlign.center,
               ),
             ),
-            SizedBox(height: size.height * 0.025),
-            //SizedBox(height: size.height * 0.06),
-            Filmler(),
-          ],
-        ),
+          ),
+          SizedBox(height: size.height * 0.025),
+          //SizedBox(height: size.height * 0.06),
+          Filmler(),
+        ],
       ),
     );
   }
@@ -149,7 +148,7 @@ class _ustFilmState extends State<ustFilm> {
     final ref = FirebaseDatabase.instance.ref().child('movies');
     return Container(
       width: widget.size.width * 0.9,
-      height: widget.size.height * 0.25,
+      height: 190,
       decoration: BoxDecoration(
         color: renkler.acikBackg,
         borderRadius: BorderRadius.circular(30),

@@ -25,8 +25,9 @@ class FfilmlerState extends State<Filmler> {
     Size size = MediaQuery.of(context).size;
     final ref = FirebaseDatabase.instance.ref().child('movies');
     return Container(
-      height: size.height * 1,
+      height: 315,
       child: FirebaseAnimatedList(
+        shrinkWrap: true,
         query: ref,
         itemBuilder: (context, snapshot, animation, index) {
           Map movie = snapshot.value as Map;
